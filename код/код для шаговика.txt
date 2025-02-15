@@ -1,0 +1,35 @@
+#include <Stepper.h>
+String x;
+String st;
+int i = 1;
+int y = 0;
+const int stepsPerRevolution = 360;
+
+
+Stepper myStepper(stepsPerRevolution, 8, 9, 10, 11); //поставьте тут пины к которым вы подключили
+
+
+
+
+void setup()
+{
+  myStepper.setSpeed(60);
+  Serial.begin(115200);
+  Serial.setTimeout(1);
+}
+
+
+void loop() 
+{
+  while (!Serial.available());
+    x = Serial.readString();
+    Serial.print(x);
+    st = x;
+    char fourthChar = st[2];
+    y = fourthChar;
+    i = abs(i-y);
+    if (i >= 3){
+      i = abs(6-i);
+    }
+    myStepper.step(i * (stepsPerRevolution/6) );
+}
